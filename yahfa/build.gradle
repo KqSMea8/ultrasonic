@@ -2,8 +2,8 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'maven'
 def repositoryUrl = uri('https://maven.byted.org/repository/faceu/')
-def name = 'deploy'
-def password = 'bytedance123'
+def name = '123'
+def password = '123'
 uploadArchives {
     repositories {
         mavenDeployer {
