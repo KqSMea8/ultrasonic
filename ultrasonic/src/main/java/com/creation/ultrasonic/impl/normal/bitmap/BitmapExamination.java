@@ -8,17 +8,16 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.creation.ultrasonic.DoctorSingleton;
-import com.creation.ultrasonic.IDoctor;
 import com.creation.ultrasonic.IProbe;
 import com.creation.ultrasonic.impl.Examination;
 import com.creation.ultrasonic.impl.HookProbe;
 import com.creation.ultrasonic.impl.PrintUtils;
 import com.creation.ultrasonic.impl.hook.MethodSign;
 
+import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -42,7 +41,11 @@ public class BitmapExamination extends Examination {
         return arrayList;
     }
 
-    private static void printCreateBitmap(Bitmap bitmap, boolean decode, BitmapFactory.Options opts) {
+    private static void printCreateBitmap(Bitmap bitmap, BitmapFactory.Options opts, boolean decode) {
+        printCreateBitmap(bitmap, opts, decode, null);
+    }
+
+    private static void printCreateBitmap(Bitmap bitmap, BitmapFactory.Options opts, boolean decode, String path) {
         if (bitmap == null) {
             return;
         }
@@ -88,7 +91,7 @@ public class BitmapExamination extends Examination {
 
         public static Bitmap hook(int width, int height, Bitmap.Config config) {
             Bitmap bitmap = backup(width, height, config);
-            printCreateBitmap(bitmap, false, null);
+            printCreateBitmap(bitmap, null, false);
             return bitmap;
         }
 
@@ -119,7 +122,7 @@ public class BitmapExamination extends Examination {
         public static Bitmap hook(Bitmap source, int x, int y, int width, int height,
                            Matrix m, boolean filter) {
             Bitmap bitmap = backup(source, x, y, width, height, m, filter);
-            printCreateBitmap(bitmap, false, null);
+            printCreateBitmap(bitmap, null, false);
             return bitmap;
         }
 
@@ -147,7 +150,7 @@ public class BitmapExamination extends Examination {
 
         public static Bitmap hook(DisplayMetrics display, int width, int height, Bitmap.Config config) {
             Bitmap bitmap = backup(display, width, height, config);
-            printCreateBitmap(bitmap, false, null);
+            printCreateBitmap(bitmap, null, false);
             return bitmap;
         }
 
@@ -178,7 +181,7 @@ public class BitmapExamination extends Examination {
         public static Bitmap hook(DisplayMetrics display, int colors[],
                            int offset, int stride, int width, int height, Bitmap.Config config) {
             Bitmap bitmap = backup(display, colors, offset, stride, width, height, config);
-            printCreateBitmap(bitmap, false, null);
+            printCreateBitmap(bitmap, null, false);
             return bitmap;
         }
 
@@ -205,7 +208,7 @@ public class BitmapExamination extends Examination {
 
         public static Bitmap hook(InputStream is, Rect outPadding, BitmapFactory.Options opts) {
             Bitmap bitmap = backup(is, outPadding, opts);
-            printCreateBitmap(bitmap, true, opts);
+            printCreateBitmap(bitmap, opts, true);
             return bitmap;
         }
 
@@ -231,7 +234,7 @@ public class BitmapExamination extends Examination {
 
         public static Bitmap hook(FileDescriptor fd, Rect outPadding, BitmapFactory.Options opts) {
             Bitmap bitmap = backup(fd, outPadding, opts);
-            printCreateBitmap(bitmap, true, opts);
+            printCreateBitmap(bitmap, opts, true);
             return bitmap;
         }
 
